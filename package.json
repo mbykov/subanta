@@ -1,0 +1,36 @@
+{
+    "name": "subanta",
+    "version": "0.1.0",
+    "description": "Inflectional Morphology Analyzer for Sanskrit",
+    "main": "index.js",
+    "directories": {
+        "test": "test"
+    },
+    "scripts": {
+        "test": "make test"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mbykov/subanta.git"
+    },
+    "keywords": [
+        "sanskrit",
+        "morphology"
+    ],
+    "author": "Michael Bykov <mbykov@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/mbykov/subanta.git/issues"
+    },
+    "dependencies": {
+        "underscore": "*",
+        "shiva-sutras": "*",
+        "sandhi": "*",
+        "salita-component": "*"
+    },
+    "devDependencies": {
+        "salita-component": "*",
+        "mocha": "*",
+        "should": "*"
+    }
+}
