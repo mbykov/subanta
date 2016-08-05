@@ -33,6 +33,6 @@ function stemmer() {
 
 // переименовать в find, и в run.js тоже
 stemmer.prototype.query = function(query, sups) {
-    log('SUP', sups[0]);
+    log('SUP', sups.slice(0,9));
     return [];
 }

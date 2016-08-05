@@ -12,7 +12,7 @@ var salita = require('salita-component');
 var path = require('path');
 var fs = require('fs');
 
-var sup = require('./lib/sup');
+var osup = require('./lib/sup');
 var subanta = require('./index');
 var s = require('sandhi');
 // var c = s.const;
@@ -40,13 +40,22 @@ var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 
 
 var sups = [];
 
-for (var gend in sup) {
-    var affs = sup[gend];
+for (var gend in osup) {
+    var affs = osup[gend];
     // log(num, affix);
     for (var aff in affs) {
-        var terms = affs[aff];
-        var dict = terms['dict'];
-        log(gend, aff, dict);
+        var oterm = affs[aff];
+        var dict = oterm['dict'];
+        var term, term2;
+        for (var sup in oterm) {
+            if (sup == 'dict') continue;
+            term2 = oterm[sup].split('-');
+            term2.forEach(function(term) {
+                sup = {gend: gend, sup: sup, term: term, size: term.length, dict: dict};
+                sups.push(sup);
+            });
+        }
+        // log(gend, aff, dict);
     }
 }
 
