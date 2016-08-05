@@ -24,16 +24,18 @@ var stemmer = require('../index');
 // }
 
 // var sups =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
-var sups = {
+var supkeys = {
     'sg': ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'voc'],
     'du': ['भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'voc'],
     'pl': ['भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्', 'voc']
 }
 
+var sups = require('../lib/sup-cache');
+
 var tests = [];
 
-
 var files = fs.readdirSync('./test/nAman');
+
 for (var i in files) {
     var rtests = require('./nAman/' + files[i]);
     // log('F', rtests);
@@ -51,7 +53,7 @@ for (var i in files) {
             // log('G', num);
             var sup;
             osups.forEach(function(form, idx) {
-                sup = sups[num][idx];
+                sup = supkeys[num][idx];
                 var test = {form: form, gend: gend, num: num, pada: sa, sup: sup, var: svar};
                 tests.push(test);
             });
@@ -62,10 +64,10 @@ for (var i in files) {
 }
 
 var test = tests[0];
-log('T', test);
+// log('T', test);
 
 
-// stemmer.query(test.form);
+stemmer.query(test.form, sups);
 
 return;
 

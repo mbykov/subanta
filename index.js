@@ -12,7 +12,7 @@ var sandhi = s.sandhi;
 var inc = u.include;
 var log = u.log;
 var p = u.p;
-// var salita = require('salita-component');
+var salita = require('salita-component');
 // var sha1 = require('sha1');
 
 
@@ -28,6 +28,12 @@ function stemmer() {
 
 // переименовать в find, и в run.js тоже
 stemmer.prototype.query = function(query, sups) {
-    p('SUP', sups.slice(0,9));
+    log('INDEX', query, ' - ', salita.sa2slp(query));
+    var fin;
+    sups.forEach(function(sup, idx) {
+        fin = (sup.size == 0) ? '' : query.slice(-sup.size);
+        if (fin != sup.term) return;
+        log(fin, JSON.stringify(sup));
+    });
     return [];
 }

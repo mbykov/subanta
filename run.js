@@ -12,7 +12,7 @@ var salita = require('salita-component');
 var path = require('path');
 var fs = require('fs');
 
-var osup = require('./lib/sup');
+// var osup = require('./lib/sup');
 var subanta = require('./index');
 var s = require('sandhi');
 // var c = s.const;
@@ -31,41 +31,26 @@ if (/[a-zA-Z0-1]/.test(lat[0])) {
     lat = salita.sa2slp(form);
 }
 
-if (find) log('subanta find:', lat, form); // लोकृ्-लोक् // लोचृ्-लोच्// प्-पा
+if (find) log('subanta find:', lat, form);
 else log('subanta parse:', lat, form);
 
 var eu =  ['sg.nom', 'sg.acc', 'sg.ins', 'sg.dat', 'sg.abl', 'sg.gen', 'sg.loc', 'sg.voc', 'du.nom', 'du.acc', 'du.ins', 'du.dat', 'du.abl', 'du.gen', 'du.loc', 'du.voc', 'pl.nom', 'pl.acc', 'pl.ins', 'pl.dat', 'pl.abl', 'pl.gen', 'pl.loc', 'pl.voc'];
 var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
 
 
-var sups = [];
+// var sups = [];
+var sups = require('./lib/sup-cache');
+// log(111, sups);
 
-for (var gend in osup) {
-    var affs = osup[gend];
-    // log(num, affix);
-    for (var aff in affs) {
-        var oterm = affs[aff];
-        var dict = oterm['dict'];
-        var term, term2;
-        for (var sup in oterm) {
-            if (sup == 'dict') continue;
-            term2 = oterm[sup].split('-');
-            term2.forEach(function(term) {
-                sup = {gend: gend, sup: sup, term: term, size: term.length, dict: dict, var: aff};
-                sups.push(sup);
-            });
-        }
-        // log(gend, aff, dict);
-    }
-}
 
 
 console.time("queryTime");
 
 var queries = subanta.query(form, sups);
+// var queries = [];
 
 // ==============
-p(queries);
+// p(queries);
 log('qs size:', queries.length);
 
 console.timeEnd("queryTime");
