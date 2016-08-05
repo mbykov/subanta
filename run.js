@@ -51,7 +51,7 @@ for (var gend in osup) {
             if (sup == 'dict') continue;
             term2 = oterm[sup].split('-');
             term2.forEach(function(term) {
-                sup = {gend: gend, sup: sup, term: term, size: term.length, dict: dict};
+                sup = {gend: gend, sup: sup, term: term, size: term.length, dict: dict, var: aff};
                 sups.push(sup);
             });
         }

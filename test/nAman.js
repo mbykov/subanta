@@ -23,28 +23,49 @@ var stemmer = require('../index');
 //     'pl': ['विद्याः', 'विद्याः', 'विद्याः', 'विद्याभिः', 'विद्याभ्यः', 'विद्याभ्यः', 'विद्यानाम्', 'विद्यासु']
 // }
 
+// var sups =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
+var sups = {
+    'sg': ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'voc'],
+    'du': ['भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'voc'],
+    'pl': ['भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्', 'voc']
+}
+
 var tests = [];
+
 
 var files = fs.readdirSync('./test/nAman');
 for (var i in files) {
     var rtests = require('./nAman/' + files[i]);
     // log('F', rtests);
+    // log(1, rtests.desc);
+    var gend = rtests.desc.gend;
+    var svar = rtests.desc.var;
+    var sa;
     for (var pada in rtests.tests) {
         if (pada == '') continue;
-        var gends = rtests.tests[pada];
-        // log('P', pada, gends);
-        for (var gend in gends) {
-            var sups = gends[gend];
-            // log('G', gend, sups);
-            sups.forEach(function(form, idx) {
-                var test = {form: form, gend: gend, pada: pada, idx: idx};
-                log('T', test);
+        sa = salita.slp2sa(pada);
+        var nums = rtests.tests[pada];
+        // log('P', pada, nums);
+        for (var num in nums) {
+            var osups = nums[num];
+            // log('G', num);
+            var sup;
+            osups.forEach(function(form, idx) {
+                sup = sups[num][idx];
+                var test = {form: form, gend: gend, num: num, pada: sa, sup: sup, var: svar};
+                tests.push(test);
             });
         }
 
     }
 
 }
+
+var test = tests[0];
+log('T', test);
+
+
+// stemmer.query(test.form);
 
 return;
 

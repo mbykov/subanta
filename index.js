@@ -15,11 +15,6 @@ var p = u.p;
 // var salita = require('salita-component');
 // var sha1 = require('sha1');
 
-// var dataPath = path.join(__dirname, '../uohyd/drpatel/generatedverbforms_deva20062016.csv');
-
-var pars = ['तिप्', 'तस्', 'झि', 'सिप्', 'थस्', 'थ', 'मिप्', 'वस्', 'मस्'];
-var atms = ['त', 'आताम्', 'झ', 'थास्', 'आथाम्', 'ध्वम्', 'इट्', 'वहि', 'महिङ्'];
-
 
 exports = module.exports = stemmer();
 
@@ -33,6 +28,6 @@ function stemmer() {
 
 // переименовать в find, и в run.js тоже
 stemmer.prototype.query = function(query, sups) {
-    log('SUP', sups.slice(0,9));
+    p('SUP', sups.slice(0,9));
     return [];
 }
