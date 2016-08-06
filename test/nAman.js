@@ -83,7 +83,7 @@ function _Fn(test) {
     describe(descr, function(){
         var form = test.form;
         var fslp = salita.sa2slp(form);
-        var title = [fslp, test.form, test.gend, test.sup, 'var', test.var].join('_');
+        var title = [fslp, test.form, test.gend, test.sup, 'var', test.var, ' '].join('_');
         it(title, function() {
             var results = stemmer.query(form, sups);
             var rkeys = results.map(function(r) {return [r.gend, r.sup, r.var, r.pada].join('-')});
