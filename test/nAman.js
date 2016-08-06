@@ -32,23 +32,33 @@ var tests = [];
 for (var i in files) {
     var rtests = require('./nAman/' + files[i]);
     // log('F', rtests);
-    // log(1, rtests.desc);
-    var gend = rtests.desc.gend;
-    var svar = rtests.desc.var;
+    // log(1, files[i]);
+    var fn = files[i];
+    var names = fn.split('.')[0];
+    var name = names.split('_')[1];
+    var gend = name.split('-')[0];
+    var svar = name.split('-')[1];
+    // var gend = rtests.desc.gend;
+    // var svar = rtests.desc.var;
     var sa;
-    for (var pada in rtests.tests) {
+    for (var pada in rtests) {
         if (pada == '') continue;
         sa = salita.slp2sa(pada);
-        var nums = rtests.tests[pada];
+        var nums = rtests[pada];
         // log('P', pada, nums);
         for (var num in nums) {
-            var forms = nums[num];
-            // log('G', num);
+            var forms2 = nums[num];
+            // log('G', num, forms2);
             var sup;
-            forms.forEach(function(form, idx) {
-                sup = supkeys[num][idx];
-                var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
-                tests.push(test);
+            forms2.forEach(function(form2, idx) {
+                // log('G', idx, form2);
+                var forms = form2.split('-');
+                forms.forEach(function(form) {
+                    sup = supkeys[num][idx];
+                    var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
+                    // log('G', idx, test);
+                    tests.push(test);
+                });
             });
         }
     }
@@ -78,7 +88,7 @@ function _Fn(test) {
             var results = stemmer.query(form, sups);
             var rkeys = results.map(function(r) {return [r.gend, r.sup, r.var, r.pada].join('-')});
             var key = [test.gend, test.sup, test.var, test.pada].join('-');
-            if (!inc(rkeys, key)) log('err-test dhatu:', test.dhatu, 'form:', test.form, 'key', key, rkeys);
+            if (!inc(rkeys, key)) p('err-test sup: ', test.pada, ' form: ', test.form, ' key: ', key, rkeys);
             inc(rkeys, key).should.equal(true);
         });
     });

@@ -20,6 +20,7 @@ nAman:
 		--reporter $(REPORTER) \
 		--slow 500 \
 		--grep $(g) \
+		--bail \
 		--timeout 3000 \
 		test/nAman.js \
 #		2> /dev/null
