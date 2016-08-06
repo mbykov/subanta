@@ -24,42 +24,6 @@ var supkeys = {
     'pl': ['भ्यस्', 'pl.voc', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्']
 };
 
-// var sups = require('../lib/sup-cache');
-// var tests = [];
-// var files = fs.readdirSync('./test/nAman');
-
-// for (var i in files) {
-//     var rtests = require('./nAman/' + files[i]);
-//     // log('F', rtests);
-//     // log(1, rtests.desc);
-//     var gend = rtests.desc.gend;
-//     var svar = rtests.desc.var;
-//     var sa;
-//     for (var pada in rtests.tests) {
-//         if (pada == '') continue;
-//         sa = salita.slp2sa(pada);
-//         var nums = rtests.tests[pada];
-//         // log('P', pada, nums);
-//         for (var num in nums) {
-//             var forms = nums[num];
-//             // log('G', num);
-//             var sup;
-//             forms.forEach(function(form, idx) {
-//                 sup = supkeys[num][idx];
-//                 var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
-//                 tests.push(test);
-//             });
-//         }
-//     }
-// }
-
-// var test = tests[0];
-// log('T', test);
-
-
-// var q = stemmer.query(test.form, sups);
-// p(q)
-
 var sups = require('../lib/sup-cache');
 
 var files = fs.readdirSync('./test/nAman');
@@ -93,32 +57,25 @@ for (var i in files) {
 
 // before(function() {
 //     sups = require('../lib/sup-cache');
-
 // });
 
-
-
 tests.forEach(function(test, idx) {
-    if (idx != 2) return;
+    // if (idx != 2) return;
     // log('T', test);
-    var res = stemmer.query(test.form, sups);
-    var strs = res.map(function(r) { return JSON.stringify(r)});
-    // log('R', strs);
     _Fn(test);
 });
 
 
 
 function _Fn(test) {
-    var descr = [test.dhatu, test.form].join('_');
+    var pslp = salita.sa2slp(test.pada);
+    var descr = [pslp, test.pada].join('_');
     describe(descr, function(){
         var form = test.form;
-        // var fslp = salita.sa2slp(form);
-        var results, result;
-        // var title = [fslp, test.lslp, test.pslp, form, test.la, 'tip', test.tip].join('_');
-        var title = [test.gend, test.sup, test.var, test.pada].join('_');
+        var fslp = salita.sa2slp(form);
+        var title = [fslp, test.form, test.gend, test.sup, 'var', test.var].join('_');
         it(title, function() {
-            results = stemmer.query(form, sups);
+            var results = stemmer.query(form, sups);
             var rkeys = results.map(function(r) {return [r.gend, r.sup, r.var, r.pada].join('-')});
             var key = [test.gend, test.sup, test.var, test.pada].join('-');
             if (!inc(rkeys, key)) log('err-test dhatu:', test.dhatu, 'form:', test.form, 'key', key, rkeys);
