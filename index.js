@@ -22,18 +22,31 @@ function stemmer() {
     if (!(this instanceof stemmer)) return new stemmer();
 }
 
+// forms queries for CouchDB:
 
-
-// =========================================== QUERY
-
-// переименовать в find, и в run.js тоже
 stemmer.prototype.query = function(query, sups) {
     log('INDEX', query, ' - ', salita.sa2slp(query));
-    var fin;
+    var fin, sfin, beg, term, stem, pada;
+    var res = [];
+    fin = query.slice(-1);
+    log('F', fin);
     sups.forEach(function(sup, idx) {
-        fin = (sup.size == 0) ? '' : query.slice(-sup.size);
-        if (fin != sup.term) return;
-        log(fin, JSON.stringify(sup));
+        term = (sup.size == 0) ? '' : query.slice(-sup.size);
+        if (term != sup.term) return;
+        if (sup.size == 0 &! u.isConsonant(fin)) return;
+        stem = (sup.size == 0) ? query : query.slice(0, -sup.size);
+        // checkTaddhita(); checkKridanta();
+        sfin = stem.slice(-1);
+        beg = sup.dict[0];
+        // FIXME: вот тут интересно. Если sup - гласная, а stem на тоже гласную, то д.б. сандхи ? или этих правил достаточно?
+        if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
+        else if (sfin == c.virama &! u.isConsonant(sfin)) return; // only virama + cons
+        // log(stem, JSON.stringify(sup));
+        pada = [stem, sup.dict].join('');
+        sup.stem = stem;
+        sup.pada = pada;
+        res.push(sup);
     });
-    return [];
+    // return [];
+    return res;
 }

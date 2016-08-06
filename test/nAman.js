@@ -63,11 +63,21 @@ for (var i in files) {
 
 }
 
-var test = tests[0];
+// var test = tests[0];
 // log('T', test);
 
 
-stemmer.query(test.form, sups);
+// var q = stemmer.query(test.form, sups);
+// p(q)
+
+tests.forEach(function(test, idx) {
+    if (idx > 0) return;
+    log('T', test);
+    var res = stemmer.query(test.form, sups);
+    var strs = res.map(function(r) { return JSON.stringify(r)});
+    log('R', strs);
+    // _Fn(test);
+});
 
 return;
 
@@ -112,17 +122,6 @@ return;
 // // return;
 
 // // अंहते-अहि!-01-लट्-आ-त
-// var test;
-// tests.forEach(function(row, idx) {
-//     // if (idx > 9) return; // FIXME: ========================================
-//     if (row == '') return;
-//     var form, dhatu, gana, la, pada, tip, excep;
-//     [form, dhatu, gana, la, pada, tip, excep] = row.split('-');
-//     // if (excep == 1) return;
-//     test = {form: form, dhatu, dhatu, gana: gana, la: la, pada: pada, tip: tip};
-//     // log('T', test);
-//     _Fn(test);
-// });
 
 
 // function _Fn(test) {

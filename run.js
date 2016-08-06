@@ -50,7 +50,7 @@ var queries = subanta.query(form, sups);
 // var queries = [];
 
 // ==============
-// p(queries);
+p(queries);
 log('qs size:', queries.length);
 
 console.timeEnd("queryTime");
