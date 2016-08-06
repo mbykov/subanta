@@ -60,9 +60,6 @@ var supkeys = {
 // var q = stemmer.query(test.form, sups);
 // p(q)
 
-log('HERE');
-
-
 var sups = require('../lib/sup-cache');
 
 var files = fs.readdirSync('./test/nAman');
@@ -92,22 +89,21 @@ for (var i in files) {
         }
     }
 }
-log('T', tests.length);
+// log('T', tests.length);
 
-before(function() {
-    log('THERE');
-    sups = require('../lib/sup-cache');
+// before(function() {
+//     sups = require('../lib/sup-cache');
 
-});
+// });
 
 
 
 tests.forEach(function(test, idx) {
     if (idx != 2) return;
-    log('T', test);
+    // log('T', test);
     var res = stemmer.query(test.form, sups);
     var strs = res.map(function(r) { return JSON.stringify(r)});
-    log('R', strs);
+    // log('R', strs);
     _Fn(test);
 });
 

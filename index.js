@@ -25,11 +25,11 @@ function stemmer() {
 // forms queries for CouchDB:
 
 stemmer.prototype.query = function(query, sups) {
-    log('INDEX', query, ' - ', salita.sa2slp(query));
+    // log('INDEX', query, ' - ', salita.sa2slp(query));
     var fin, sfin, beg, term, stem, pada;
     var res = [];
     fin = query.slice(-1);
-    log('F', fin);
+    // log('F', fin);
     sups.forEach(function(sup, idx) {
         term = (sup.size == 0) ? '' : query.slice(-sup.size);
         if (term != sup.term) return;
