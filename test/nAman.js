@@ -24,15 +24,23 @@ var supkeys = {
     'pl': ['भ्यस्', 'pl.voc', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्']
 };
 
+// здесь sups без vocs:
+// var supkeys = {
+//     'sg': ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा'],
+//     'du': ['भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्'],
+//     'pl': ['भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्']
+// };
+
 var sups = require('../lib/sup-cache');
 
 var files = fs.readdirSync('./test/nAman');
 
 var tests = [];
 for (var i in files) {
+    // log(1, files[i]);
+    if (files[i] != 'noun_masc-a.js') continue;
     var rtests = require('./nAman/' + files[i]);
     // log('F', rtests);
-    // log(1, files[i]);
     var fn = files[i];
     var names = fn.split('.')[0];
     var name = names.split('_')[1];

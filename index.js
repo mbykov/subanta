@@ -29,7 +29,7 @@ stemmer.prototype.query = function(query, sups) {
     var fin, sfin, beg, term, stem, pada;
     var res = [];
     fin = query.slice(-1);
-    // log('F', fin);
+    log('F', sups.length);
     sups.forEach(function(sup, idx) {
         term = (sup.size == 0) ? '' : query.slice(-sup.size);
         if (term != sup.term) return;
@@ -47,6 +47,10 @@ stemmer.prototype.query = function(query, sups) {
         sup.pada = pada;
         res.push(sup);
     });
+    /*
+      сделать res и выбросить sup для краткости - можно.
+      сгруппировать по sup.term - можно, выигрыш - 900 строк - существенно
+     */
     // return [];
     return res;
 }
