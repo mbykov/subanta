@@ -52,9 +52,10 @@ for (var i in files) {
             var sup;
             forms2.forEach(function(form2, idx) {
                 // log('G', idx, form2);
+                sup = supkeys[num][idx];
+                if (/voc/.test(sup)) return;
                 var forms = form2.split('-');
                 forms.forEach(function(form) {
-                    sup = supkeys[num][idx];
                     var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
                     // log('G', idx, test);
                     tests.push(test);
@@ -68,6 +69,8 @@ for (var i in files) {
 // before(function() {
 //     sups = require('../lib/sup-cache');
 // });
+
+//
 
 tests.forEach(function(test, idx) {
     // if (idx != 2) return;
