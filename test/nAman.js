@@ -25,7 +25,7 @@ var stemmer = require('../index');
 // };
 
 var supkeys = {
-    'sg': ['1.1', '8.1', '.2.1', '3.1', '4.1', '5.1', '6.1', '7.1'],
+    'sg': ['1.1', '8.1', '2.1', '3.1', '4.1', '5.1', '6.1', '7.1'],
     'du': ['1.2', '8.2', '2.2', '3.2', '4.2', '5.2', '6.2', '7.2'],
     'pl': ['1.3', '8.3', '2.3', '3.3', '4.3', '5.3', '6.3', '7.3']
 };
@@ -70,7 +70,7 @@ for (var i in files) {
             forms2.forEach(function(form2, idx) {
                 // log('G', idx, form2);
                 sup = supkeys[num][idx];
-                if (/voc/.test(sup)) return;
+                if (/8/.test(sup)) return;
                 var forms = form2.split('-');
                 forms.forEach(function(form) {
                     var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
