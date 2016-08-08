@@ -29,7 +29,6 @@ stemmer.prototype.query = function(query, sups) {
     var fin, sfin, beg, term, stem, pada;
     var res = [];
     fin = query.slice(-1);
-    log('F', sups.length);
     sups.forEach(function(sup, idx) {
         term = (sup.size == 0) ? '' : query.slice(-sup.size);
         if (term != sup.term) return;

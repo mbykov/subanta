@@ -18,10 +18,16 @@ var stemmer = require('../index');
 
 // var sups =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
 // sup tests from inria.fr, so voc placed after nom:
+// var supkeys = {
+//     'sg': ['सु', 'sg.voc', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा'],
+//     'du': ['भ्याम्', 'du.voc', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्'],
+//     'pl': ['भ्यस्', 'pl.voc', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्']
+// };
+
 var supkeys = {
-    'sg': ['सु', 'sg.voc', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा'],
-    'du': ['भ्याम्', 'du.voc', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्'],
-    'pl': ['भ्यस्', 'pl.voc', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्']
+    'sg': ['1.1', '8.1', '.2.1', '3.1', '4.1', '5.1', '6.1', '7.1'],
+    'du': ['1.2', '8.2', '2.2', '3.2', '4.2', '5.2', '6.2', '7.2'],
+    'pl': ['1.3', '8.3', '2.3', '3.3', '4.3', '5.3', '6.3', '7.3']
 };
 
 // здесь sups без vocs:
@@ -38,9 +44,9 @@ var files = fs.readdirSync('./test/nAman');
 var tests = [];
 for (var i in files) {
     // log(1, files[i]);
-    if (files[i] != 'noun_masc-a.js') continue;
+    if (files[i] != 'noun_neut-an.js') continue;
     var rtests = require('./nAman/' + files[i]);
-    // log('F', rtests);
+    log('F', files[i] );
     var fn = files[i];
     var names = fn.split('.')[0];
     var name = names.split('_')[1];
@@ -48,9 +54,12 @@ for (var i in files) {
     var svar = name.split('-')[1];
     // var gend = rtests.desc.gend;
     // var svar = rtests.desc.var;
+    var cons = (svar == 'cons') ? true: false;
     var sa;
     for (var pada in rtests) {
         if (pada == '') continue;
+        if (cons) svar = pada.slice(-1);
+        // log('SVAR', pada, svar);
         sa = salita.slp2sa(pada);
         var nums = rtests[pada];
         // log('P', pada, nums);
