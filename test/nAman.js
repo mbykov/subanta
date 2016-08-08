@@ -44,9 +44,9 @@ var files = fs.readdirSync('./test/nAman');
 var tests = [];
 for (var i in files) {
     // log(1, files[i]);
-    if (files[i] != 'noun_fem-cons.js') continue;
+    // if (files[i] != 'noun_fem-A.js') continue;
     var rtests = require('./nAman/' + files[i]);
-    log('F', files[i] );
+    // log('F', files[i] );
     var fn = files[i];
     var names = fn.split('.')[0];
     var name = names.split('_')[1];
