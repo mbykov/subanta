@@ -26,13 +26,25 @@ function stemmer() {
 
 stemmer.prototype.query = function(query, sups) {
     // log('INDEX', query, ' - ', salita.sa2slp(query));
+    query = query.trim();
     var fin, sfin, beg, term, stem, pada;
-    var res = [];
+    var fits = [];
     fin = query.slice(-1);
-    sups.forEach(function(sup, idx) {
+    sups.forEach(function(sup) {
         term = (sup.size == 0) ? '' : query.slice(-sup.size);
         if (term != sup.term) return;
         if (sup.size == 0 &! u.isConsonant(fin)) return;
+        fits.push(sup);
+    });
+
+    var max = 0;
+    fits.forEach(function(sup) {
+        max = (max >= sup.size) ? max : sup.size;
+    });
+
+    var res = [];
+    fits.forEach(function(sup) {
+        if (sup.size < max) return;
         stem = (sup.size == 0) ? query : query.slice(0, -sup.size);
         // checkTaddhita(); checkKridanta();
         sfin = stem.slice(-1);
@@ -46,6 +58,7 @@ stemmer.prototype.query = function(query, sups) {
         sup.pada = pada;
         res.push(sup);
     });
+
     /*
       сделать res и выбросить sup для краткости - можно.
       сгруппировать по sup.term - можно, выигрыш - 900 строк - существенно

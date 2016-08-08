@@ -44,7 +44,7 @@ var files = fs.readdirSync('./test/nAman');
 var tests = [];
 for (var i in files) {
     // log(1, files[i]);
-    if (files[i] != 'noun_neut-an.js') continue;
+    if (files[i] != 'noun_fem-cons.js') continue;
     var rtests = require('./nAman/' + files[i]);
     log('F', files[i] );
     var fn = files[i];
@@ -55,12 +55,12 @@ for (var i in files) {
     // var gend = rtests.desc.gend;
     // var svar = rtests.desc.var;
     var cons = (svar == 'cons') ? true: false;
-    var sa;
+    var sa, la;
     for (var pada in rtests) {
         if (pada == '') continue;
-        if (cons) svar = pada.slice(-1);
-        // log('SVAR', pada, svar);
-        sa = salita.slp2sa(pada);
+        [sa, la] = salat(pada);
+        if (cons) svar = la.slice(-1);
+        // log('SVAR', sa, la, svar);
         var nums = rtests[pada];
         // log('P', pada, nums);
         for (var num in nums) {
@@ -73,7 +73,7 @@ for (var i in files) {
                 if (/8/.test(sup)) return;
                 var forms = form2.split('-');
                 forms.forEach(function(form) {
-                    var test = {form: form, gend: gend, pada: sa, sup: sup, var: svar};
+                    var test = {form: form, gend: gend, sa: sa, la: la, sup: sup, var: svar};
                     // log('G', idx, test);
                     tests.push(test);
                 });
@@ -98,8 +98,7 @@ tests.forEach(function(test, idx) {
 
 
 function _Fn(test) {
-    var pslp = salita.sa2slp(test.pada);
-    var descr = [pslp, test.pada].join('_');
+    var descr = [test.la, test.sa, test.form, ''].join('_');
     describe(descr, function(){
         var form = test.form;
         var fslp = salita.sa2slp(form);
@@ -107,9 +106,21 @@ function _Fn(test) {
         it(title, function() {
             var results = stemmer.query(form, sups);
             var rkeys = results.map(function(r) {return [r.gend, r.sup, r.var, r.pada].join('-')});
-            var key = [test.gend, test.sup, test.var, test.pada].join('-');
-            if (!inc(rkeys, key)) p('err-test sup: ', test.pada, ' form: ', test.form, ' key: ', key, rkeys);
+            var key = [test.gend, test.sup, test.var, test.sa].join('-');
+            if (!inc(rkeys, key)) p('err-test sup:', test.la, test.sa, ' form:', test.form, ' key:', key, rkeys);
             inc(rkeys, key).should.equal(true);
         });
     });
+}
+
+function salat(pada) {
+    var sa, la;
+    if (/[a-zA-Z0-1]/.test(pada[0])) {
+        sa = salita.slp2sa(pada);
+        la = pada;
+    } else {
+        sa = pada;
+        la = salita.sa2slp(pada);
+    }
+    return [sa, la];
 }
