@@ -21,7 +21,7 @@ var test = {
 
 }
 
-var desc = {gend: 'neut', var: 'a'};
+var desc = {gend: 'neut', dict: 'न्', var: 'an'};
 
 module.exports = {
     desc: desc,

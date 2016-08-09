@@ -31,9 +31,13 @@ stemmer.prototype.query = function(query, sups) {
     var fits = [];
     fin = query.slice(-1);
     sups.forEach(function(sup) {
+        // log('S', sup);
         term = (sup.size == 0) ? '' : query.slice(-sup.size);
         if (term != sup.term) return;
         if (sup.size == 0 &! u.isConsonant(fin)) return;
+        fits.push(sup);
+
+        return;
         stem = (sup.size == 0) ? query : query.slice(0, -sup.size);
         // checkTaddhita(); checkKridanta();
         sfin = stem.slice(-1);
@@ -44,6 +48,8 @@ stemmer.prototype.query = function(query, sups) {
         else if (sfin == c.virama &! u.isConsonant(sfin)) return; // only virama + cons
         fits.push(sup);
     });
+    p('FITS', fits);
+    return [];
 
     // max здесь не работает, pada vidyA совпадает с другими terms:
     var excep = ['्य', 'न', 'ज', 'त', 'म', 'प', '्न']; // "ुनी" а нужно "नी"

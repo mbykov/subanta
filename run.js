@@ -39,9 +39,21 @@ var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 
 
 
 // var sups = [];
-var sups = require('./lib/sup-cache');
-// log(111, sups);
+// var sups = require('./lib/sup-cache');
+// FIXME: запись в файл, чтение оттуда
+// var sups = require('./lib/make_sup_cache');
 
+var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
+var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
+var sups = [];
+var term, size, json;
+supCaches.forEach(function(cache) {
+    if (cache == '') return;
+    [term, size, json] = cache.split('-');
+    sups.push({term: term, size: size, data: JSON.parse(json)});
+});
+
+// p(111, sups);
 
 
 console.time("queryTime");
