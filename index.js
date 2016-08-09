@@ -62,7 +62,7 @@ stemmer.prototype.query = function(query, sups) {
 
     var res = [];
     fits.forEach(function(sup) {
-        if (sup.size < max[sup.gend]) return;
+        // if (sup.size < max[sup.gend]) return;
         // log(stem, JSON.stringify(sup));
         pada = [sup.stem, sup.dict].join('');
         sup.pada = pada;
