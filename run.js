@@ -51,7 +51,7 @@ var term, size, gend, dict, svar, json;
 supCaches.forEach(function(cache) {
     if (cache == '') return;
     [term, size, gend, dict, svar, json] = cache.split('-');
-    sups.push({term: term, size: size, dict: dict, var: svar, sups: JSON.parse(json)});
+    sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
 });
 
 // p(111, sups);
@@ -59,12 +59,11 @@ supCaches.forEach(function(cache) {
 console.time("queryTime");
 
 var queries = subanta.query(form, sups);
-// var queries = [];
 
 p(queries);
-// ==============
-var strs = queries.map(function(q) { return JSON.stringify(q)});
-log(strs);
+// var strs = queries.map(function(q) { return JSON.stringify(q)});
+// log(strs);
+
 log('qs size:', queries.length);
 
 console.timeEnd("queryTime");
