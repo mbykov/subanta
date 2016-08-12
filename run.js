@@ -46,21 +46,22 @@ var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 
 var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
 var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
 var sups = [];
-var term, size, json;
+var term, size, gend, dict, svar, json;
+// term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
 supCaches.forEach(function(cache) {
     if (cache == '') return;
-    [term, size, json] = cache.split('-');
-    sups.push({term: term, size: size, data: JSON.parse(json)});
+    [term, size, gend, dict, svar, json] = cache.split('-');
+    sups.push({term: term, size: size, dict: dict, var: svar, sups: JSON.parse(json)});
 });
 
 // p(111, sups);
-
 
 console.time("queryTime");
 
 var queries = subanta.query(form, sups);
 // var queries = [];
 
+p(queries);
 // ==============
 var strs = queries.map(function(q) { return JSON.stringify(q)});
 log(strs);

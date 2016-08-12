@@ -1,3 +1,4 @@
+var desc = {gend: 'neut', dict: 'न्', var: 'an'};
 var test = {
     'nAman': { // name
         'sg': ['नाम', 'नाम', 'नाम्ना', 'नाम्ने', 'नाम्नः', 'नाम्नः', 'नामनि-नाम्नि', 'नामन्-नाम'],
@@ -20,8 +21,6 @@ var test = {
 
 
 }
-
-var desc = {gend: 'neut', dict: 'न्', var: 'an'};
 
 module.exports = {
     desc: desc,
