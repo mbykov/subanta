@@ -59,8 +59,8 @@ var files = fs.readdirSync('./test/nAman');
 
 var tests = [];
 for (var i in files) {
-    // log(1, files[i]);
-    if (files[i] != 'noun_neut-an.js') continue;
+    // if (files[i] != 'noun_neut-an.js') continue;
+    if (files[i] != 'noun_fem-A.js') continue;
     var t = require('./nAman/' + files[i]);
     var fn = files[i];
     var gend = t.desc.gend;
