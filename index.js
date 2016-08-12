@@ -49,11 +49,11 @@ stemmer.prototype.query = function(form, sups) {
         sfin = stem.slice(-1);
         beg = sup.dict[0];
         sup.stem = stem;
-
         if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
         else if (sfin == c.virama &! u.isConsonant(sfin)) return; // only virama + cons
         pada = [sup.stem, sup.dict].join('');
         sup.pada = pada;
+
         queries.push(sup);
     });
     // p('FITS', queries);

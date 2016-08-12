@@ -25,9 +25,9 @@ var stemmer = require('../index');
 // };
 
 var supkeys = {
-    'sg': ['1.1', '8.1', '2.1', '3.1', '4.1', '5.1', '6.1', '7.1'],
-    'du': ['1.2', '8.2', '2.2', '3.2', '4.2', '5.2', '6.2', '7.2'],
-    'pl': ['1.3', '8.3', '2.3', '3.3', '4.3', '5.3', '6.3', '7.3']
+    'sg': ['1.1', '2.1', '3.1', '4.1', '5.1', '6.1', '7.1', '8.1'],
+    'du': ['1.2', '2.2', '3.2', '4.2', '5.2', '6.2', '7.2', '8.2'],
+    'pl': ['1.3', '2.3', '3.3', '4.3', '5.3', '6.3', '7.3', '8.3']
 };
 
 // здесь sups без vocs:
@@ -39,18 +39,21 @@ var supkeys = {
 
 // var sups = require('../lib/sup-cache');
 
-var supCachePath = path.join(__dirname, '../lib/sup_cache.txt');
-var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
-var sups = [];
-var term, size, gend, dict, svar, json;
-// term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
-supCaches.forEach(function(cache) {
-    if (cache == '') return;
-    [term, size, gend, dict, svar, json] = cache.split('-');
-    sups.push({term: term, size: size, dict: dict, var: svar, sups: JSON.parse(json)});
-});
+function getSups() {
+    var supCachePath = path.join(__dirname, '../lib/sup_cache.txt');
+    var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
+    var sups = [];
+    var term, size, gend, dict, svar, json;
+    // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
+    supCaches.forEach(function(cache) {
+        if (cache == '') return;
+        [term, size, gend, dict, svar, json] = cache.split('-');
+        sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+    });
+    return sups;
+}
 
-
+var sups = getSups();
 
 var files = fs.readdirSync('./test/nAman');
 
@@ -59,9 +62,6 @@ for (var i in files) {
     // log(1, files[i]);
     if (files[i] != 'noun_neut-an.js') continue;
     var t = require('./nAman/' + files[i]);
-    // var desc = t.desc;
-    // var test = t.test;
-    // log('F', files[i] );
     var fn = files[i];
     var gend = t.desc.gend;
     var svar = t.desc.var;
@@ -70,24 +70,20 @@ for (var i in files) {
     for (var pada in t.test) {
         if (pada == '') continue;
         [sa, la] = salat(pada);
-        // if (cons) svar = la.slice(-1);
         log('SVAR', sa, la, svar);
         var nums = t.test[pada];
-        // log('P', pada, nums);
         for (var num in nums) {
             var forms2 = nums[num];
-            // log('G', num, forms2);
             var sup;
-            // continue;
             forms2.forEach(function(form2, idx) {
-                log('G-idx', idx, form2);
+                // log('G-idx', idx, form2);
+                if (idx == 7) return; // sambodhana
                 sup = supkeys[num][idx];
-                if (/8/.test(sup)) return;
                 var forms = form2.split('-');
                 forms.forEach(function(form) {
                     var test = {form: form, gend: gend, sa: sa, la: la, sup: sup, var: svar};
                     // log('G', idx, test);
-                    // tests.push(test);
+                    tests.push(test);
                 });
             });
         }
@@ -110,18 +106,21 @@ tests.forEach(function(test, idx) {
 
 
 function _Fn(test) {
-    var descr = [test.la, test.sa, test.form, ''].join('_');
+    var descr = [test.la, test.sa].join('_');
     describe(descr, function(){
         var form = test.form;
         var fslp = salita.sa2slp(form);
         var title = [fslp, test.form, test.gend, test.sup, 'var', test.var, ' '].join('_');
         it(title, function() {
+            // log('SS', sups)
             var results = stemmer.query(form, sups);
-            log('R', results);
-            var rkeys = results.map(function(r) {return [r.gend, r.sups, r.var, r.pada].join('-'); });
-            var key = [test.gend, test.sups, test.var, test.sa].join('-');
-            if (!inc(rkeys, key)) p('err-test sup:', test.la, test.sa, ' form:', test.form, ' key:', key, rkeys);
-            // inc(rkeys, key).should.equal(true);
+            var exists = false;
+            var key = [test.gend, test.var, test.sa].join('-');
+            results.forEach(function(r) {
+                var rkey = [r.gend, r.var, r.pada].join('-');
+                if (rkey == key && inc(r.sups, test.sup)) exists = true;
+            });
+            exists.should.equal(true);
         });
     });
 }
