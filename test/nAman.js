@@ -66,20 +66,30 @@ var files = fs.readdirSync('./test/nAman');
 
 var tests = [];
 for (var i in files) {
-    // if (files[i] != 'noun_neut-an.js') continue;
+    if (files[i] != 'noun_fem-cons.js') continue;
     // if (files[i] != 'noun_masc-a.js') continue;
     var t = require('./nAman/' + files[i]);
     if (!t.desc) continue;
     if (!t.tests) continue;
 
-    var gend = t.desc.gend;
-    var svar = t.desc.var;
-    var cons = (svar == 'cons') ? true: false;
+    // var gend = t.desc.gend;
+    // var svar = t.desc.var;
+    // var cons = (svar == 'cons') ? true: false;
+    var gend, dict, svar;
+    gend = t.desc.gend;
+
     var sa, la;
     for (var pada in t.tests) {
         if (pada == '') continue;
         [sa, la] = salat(pada);
         // log('SVAR', sa, la, svar);
+        if (t.desc.cons) {
+            svar = la.slice(-1);
+            dict = salita.slp2sa(svar);
+        } else {
+            dict = t.desc.dict;
+            svar = t.desc.var;
+        }
         var nums = t.tests[pada];
         for (var num in nums) {
             var forms2 = nums[num];
