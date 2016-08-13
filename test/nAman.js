@@ -47,6 +47,7 @@ function getSups() {
     // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
     supCaches.forEach(function(cache) {
         if (cache == '') return;
+        if (cache[0] == '#') return;
         [term, size, gend, dict, svar, json] = cache.split('-');
         sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
     });
@@ -60,18 +61,20 @@ var files = fs.readdirSync('./test/nAman');
 var tests = [];
 for (var i in files) {
     // if (files[i] != 'noun_neut-an.js') continue;
-    if (files[i] != 'noun_fem-A.js') continue;
+    // if (files[i] != 'noun_masc-a.js') continue;
     var t = require('./nAman/' + files[i]);
-    var fn = files[i];
+    if (!t.desc) continue;
+    if (!t.tests) continue;
+
     var gend = t.desc.gend;
     var svar = t.desc.var;
     var cons = (svar == 'cons') ? true: false;
     var sa, la;
-    for (var pada in t.test) {
+    for (var pada in t.tests) {
         if (pada == '') continue;
         [sa, la] = salat(pada);
         log('SVAR', sa, la, svar);
-        var nums = t.test[pada];
+        var nums = t.tests[pada];
         for (var num in nums) {
             var forms2 = nums[num];
             var sup;

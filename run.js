@@ -50,6 +50,7 @@ var term, size, gend, dict, svar, json;
 // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
 supCaches.forEach(function(cache) {
     if (cache == '') return;
+    if (cache[0] == '#') return;
     [term, size, gend, dict, svar, json] = cache.split('-');
     sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
 });
