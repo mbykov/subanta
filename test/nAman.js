@@ -42,7 +42,7 @@ var supkeys = {
 function getSups() {
     var supCachePath = path.join(__dirname, '../lib/sup_cache.txt');
     var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
-    var sups = [];
+    var sups = {};
     var term, size, gend, dict, svar, json;
     // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
     supCaches.forEach(function(cache) {
@@ -51,7 +51,8 @@ function getSups() {
         [term, size, json] = cache.split('-');
         let morphs = JSON.parse(json);
         // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
-        sups.push({term: term, size: size, morphs: morphs });
+        // sups.push({term: term, size: size, morphs: morphs });
+        sups[term] = morphs;
     });
     return sups;
 }
@@ -78,7 +79,7 @@ for (var i in files) {
     for (var pada in t.tests) {
         if (pada == '') continue;
         [sa, la] = salat(pada);
-        log('SVAR', sa, la, svar);
+        // log('SVAR', sa, la, svar);
         var nums = t.tests[pada];
         for (var num in nums) {
             var forms2 = nums[num];
@@ -97,7 +98,9 @@ for (var i in files) {
         }
     }
 }
-// log('T', tests.length);
+// log('T', tests);
+// return;
+
 
 // before(function() {
 //     sups = require('../lib/sup-cache');
@@ -120,14 +123,16 @@ function _Fn(test) {
         var fslp = salita.sa2slp(form);
         var title = [fslp, test.form, test.gend, test.sup, 'var', test.var, ' '].join('_');
         it(title, function() {
-            // log('SS', sups)
             var results = stemmer.query(form, sups);
+            log('RES:', results);
             var exists = false;
+            var rkey;
             var key = [test.gend, test.var, test.sa].join('-');
             results.forEach(function(r) {
-                var rkey = [r.gend, r.var, r.pada].join('-');
+                rkey = [r.gend, r.var, r.pada].join('-');
                 if (rkey == key && inc(r.sups, test.sup)) exists = true;
             });
+            if (!exists) log('key:', key, 'sup:', test.sup, 'res', results);
             exists.should.equal(true);
         });
     });

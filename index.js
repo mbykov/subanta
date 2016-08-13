@@ -54,12 +54,12 @@ stemmer.prototype.query = function(form, sups) {
             beg = morph.dict[0];
             if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
             pada = [stem, morph.dict].join('');
-            res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups};
+            res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
             queries.push(res);
 
             // p('TERM', term, morph);
         }
-        continue;
+        // continue;
 
         // // if (size == 0 && sup.dict != 'न्') continue;
         // // stem = (sup.size == 0) ? form : form.slice(0, -sup.size);
