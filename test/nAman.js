@@ -124,7 +124,7 @@ function _Fn(test) {
         var title = [fslp, test.form, test.gend, test.sup, 'var', test.var, ' '].join('_');
         it(title, function() {
             var results = stemmer.query(form, sups);
-            log('RES:', results);
+            // log('RES:', results);
             var exists = false;
             var rkey;
             var key = [test.gend, test.var, test.sa].join('-');
@@ -132,7 +132,7 @@ function _Fn(test) {
                 rkey = [r.gend, r.var, r.pada].join('-');
                 if (rkey == key && inc(r.sups, test.sup)) exists = true;
             });
-            if (!exists) log('key:', key, 'sup:', test.sup, 'res', results);
+            if (!exists) log('form:', form, 'key:', key, 'sup:', test.sup, 'res', results);
             exists.should.equal(true);
         });
     });
