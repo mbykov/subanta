@@ -52,44 +52,15 @@ stemmer.prototype.query = function(form, sups) {
             sfin = stem.slice(-1);
             if (sfin == c.virama &! u.isConsonant(sfin)) continue; // only virama + cons
             beg = morph.dict[0];
-            if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
+            if (u.isVowel(beg) &! u.isConsonant(sfin)) continue; // only cons + vowel
             pada = [stem, morph.dict].join('');
             res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
             queries.push(res);
 
             // p('TERM', term, morph);
         }
-        // continue;
-
-        // // if (size == 0 && sup.dict != 'न्') continue;
-        // // stem = (sup.size == 0) ? form : form.slice(0, -sup.size);
-        // // checkTaddhita(); checkKridanta();
-        // sfin = stem.slice(-1);
-        // if (sfin == c.virama &! u.isConsonant(sfin)) continue; // only virama + cons
-        // // p('S', sup);
-        // let res;
-        // sup.morphs.forEach(function(morph) {
-        //     beg = morph.dict[0];
-        //     if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
-        //     pada = [stem, morph.dict].join('');
-        //     res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups};
-        //     queries.push(res);
-        // });
     }
     return queries;
-
-    // sups.forEach(function(sup) {
-    //     return;
-    //     beg = sup.dict[0];
-    //     if (u.isVowel(beg) &! u.isConsonant(sfin)) return; // only cons + vowel
-    //     else if (sfin == c.virama &! u.isConsonant(sfin)) return; // only virama + cons
-    //     sup.stem = stem;
-    //     pada = [sup.stem, sup.dict].join('');
-    //     sup.pada = pada;
-
-    //     queries.push(sup);
-    // });
-    // p('FITS', queries);
 }
 
 
