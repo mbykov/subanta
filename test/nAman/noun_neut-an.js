@@ -23,5 +23,5 @@ var test = {
 
 module.exports = {
     desc: desc,
-    test: test
+    tests: test
 }
