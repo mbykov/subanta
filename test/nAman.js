@@ -66,7 +66,7 @@ var files = fs.readdirSync('./test/nAman');
 
 var tests = [];
 for (var i in files) {
-    if (files[i] != 'noun_fem-cons.js') continue;
+    // if (files[i] != 'noun_fem-cons.js') continue;
     // if (files[i] != 'noun_masc-a.js') continue;
     var t = require('./nAman/' + files[i]);
     if (!t.desc) continue;

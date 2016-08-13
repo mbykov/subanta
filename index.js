@@ -60,6 +60,7 @@ stemmer.prototype.query = function(form, sups) {
             // p('TERM', term, morph);
         }
     }
+
     return queries;
 }
 
