@@ -45,17 +45,21 @@ var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 
 
 var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
 var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
-var sups = [];
+var sups = {};
 var term, size, gend, dict, svar, json;
 // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
 supCaches.forEach(function(cache) {
     if (cache == '') return;
     if (cache[0] == '#') return;
-    [term, size, gend, dict, svar, json] = cache.split('-');
-    sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+    [term, size, json] = cache.split('-');
+    let morphs = JSON.parse(json);
+    // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+    // sups.push({term: term, size: size, morphs: morphs });
+    sups[term] = morphs;
 });
 
-// p(111, sups);
+// p(sups);
+// return;
 
 console.time("queryTime");
 

@@ -48,13 +48,18 @@ function getSups() {
     supCaches.forEach(function(cache) {
         if (cache == '') return;
         if (cache[0] == '#') return;
-        [term, size, gend, dict, svar, json] = cache.split('-');
-        sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+        [term, size, json] = cache.split('-');
+        let morphs = JSON.parse(json);
+        // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+        sups.push({term: term, size: size, morphs: morphs });
     });
     return sups;
 }
 
 var sups = getSups();
+
+// p(sups);
+// return;
 
 var files = fs.readdirSync('./test/nAman');
 
