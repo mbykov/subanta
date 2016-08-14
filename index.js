@@ -52,11 +52,14 @@ stemmer.prototype.query = function(form, sups) {
             if (size == 0 && morph.dict != 'न्') continue;
             stem = (size == 0) ? form : form.slice(0, -size);
             sfin = stem.slice(-1);
-            if (sfin == c.virama &! u.isConsonant(sfin)) continue; // only virama + cons
+            if (sfin == c.visarga) continue;
+            if (sfin == c.virama & !u.isConsonant(sfin)) continue; // only virama + cons
+            if (morph.dict == '' && !u.isConsonant(sfin)) continue;
             let beg = morph.dict[0];
             if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
-            res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
+            let slp = salita.sa2slp(pada);
+            res = {pada: pada, slp: slp, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
             queries.push(res);
             // log('term', term, 'stem', stem, 'SFIN', sfin, 'g', morph.gend, 'v', morph.var, 'beg', beg);
             // p('TERM', term, morph);
