@@ -35,38 +35,37 @@ function stemmer() {
 stemmer.prototype.query = function(form, sups) {
     // log('INDEX', form, ' - ', salita.sa2slp(form));
     form = form.trim();
-    var fin, sfin, beg, term, fterm, stem, pada, query;
     var queries = [];
-    var fits = [];
-    fin = form.slice(-1);
+    // var fits = [];
+    let fin = form.slice(-1);
     let sup, morphs;
+    let term;
     for (term in sups) {
+        let fin, sfin, fterm, stem, pada, query;
         let size = term.length;
         morphs = sups[term];
         fterm = (size == 0) ? '' : form.slice(-size);
         if (fterm != term) continue;
         let morph, res;
         for (morph of morphs) {
+            // log('term', term);
             if (size == 0 && morph.dict != 'न्') continue;
             stem = (size == 0) ? form : form.slice(0, -size);
             sfin = stem.slice(-1);
             if (sfin == c.virama &! u.isConsonant(sfin)) continue; // only virama + cons
-            beg = morph.dict[0];
-            if (u.isVowel(beg) &! u.isConsonant(sfin)) continue; // only cons + vowel
+            let beg = morph.dict[0];
+            if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
             res = {pada: pada, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
             queries.push(res);
-
+            // log('term', term, 'stem', stem, 'SFIN', sfin, 'g', morph.gend, 'v', morph.var, 'beg', beg);
             // p('TERM', term, morph);
         }
     }
 
+    // return [];
     return queries;
 }
-
-
-
-
 
 
 
