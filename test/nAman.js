@@ -148,6 +148,8 @@ function _Fn(test) {
     });
 }
 
+//  ज ् य ो त ि स ्
+
 function salat(pada) {
     var sa, la;
     if (/[a-zA-Z0-1]/.test(pada[0])) {
