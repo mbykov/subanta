@@ -59,7 +59,7 @@ stemmer.prototype.query = function(form, sups) {
             if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
             let slp = salita.sa2slp(pada);
-            res = {pada: pada, slp: slp, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term};
+            res = {pada: pada, slp: slp, pos: 'name', stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term, size: size};
             queries.push(res);
             // log('term', term, 'stem', stem, 'SFIN', sfin, 'g', morph.gend, 'v', morph.var, 'beg', beg);
             // p('TERM', term, morph);
@@ -108,3 +108,21 @@ stemmer.prototype.query = function(form, sups) {
      */
     // return [];
     // return res;
+
+
+
+// не работает - neut-is, neut-s - разница в длине 8,9. 8 отбрасывается
+// то есть влияет атрибут var - правильный ответ есть, но не правильно складывается из stem+term
+// по идее, var не должен бы влиять
+
+// var q;
+// var max = 0;
+// for (q of queries) {
+//     if (q.size > max) max = q.size;
+// }
+
+// var cleans = [];
+// for (q of queries) {
+//     if (q.size < 5) cleans.push(q);
+//     if (q.size >= max) cleans.push(q);
+// }
