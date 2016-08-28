@@ -14,7 +14,9 @@ var log = u.log;
 var p = u.p;
 var salita = require('salita-component');
 // var sha1 = require('sha1');
+var sups = require('./lib/getSups').get();
 
+log('GET SUPS ========================== <<<');
 
 exports = module.exports = stemmer();
 
@@ -32,7 +34,7 @@ function stemmer() {
   -
 */
 
-stemmer.prototype.query = function(form, sups) {
+stemmer.prototype.query = function(form) {
     // log('INDEX', form, ' - ', salita.sa2slp(form));
     form = form.trim();
     var queries = [];
@@ -69,9 +71,6 @@ stemmer.prototype.query = function(form, sups) {
     // return [];
     return queries;
 }
-
-
-
 
 
 

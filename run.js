@@ -43,27 +43,27 @@ var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 
 // FIXME: запись в файл, чтение оттуда
 // var sups = require('./lib/make_sup_cache');
 
-var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
-var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
-var sups = {};
-var term, size, gend, dict, svar, json;
-// term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
-supCaches.forEach(function(cache) {
-    if (cache == '') return;
-    if (cache[0] == '#') return;
-    [term, size, json] = cache.split('-');
-    let morphs = JSON.parse(json);
-    // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
-    // sups.push({term: term, size: size, morphs: morphs });
-    sups[term] = morphs;
-});
+// var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
+// var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
+// var sups = {};
+// var term, size, gend, dict, svar, json;
+// // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
+// supCaches.forEach(function(cache) {
+//     if (cache == '') return;
+//     if (cache[0] == '#') return;
+//     [term, size, json] = cache.split('-');
+//     let morphs = JSON.parse(json);
+//     // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
+//     // sups.push({term: term, size: size, morphs: morphs });
+//     sups[term] = morphs;
+// });
 
 // p(sups);
 // return;
 
 console.time("queryTime");
 
-var queries = subanta.query(form, sups);
+var queries = subanta.query(form);
 
 p(queries);
 // var strs = queries.map(function(q) { return JSON.stringify(q)});
