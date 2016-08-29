@@ -16,8 +16,6 @@ var salita = require('salita-component');
 // var sha1 = require('sha1');
 var sups = require('./lib/getSups').get();
 
-log('GET SUPS ========================== <<<');
-
 exports = module.exports = stemmer();
 
 function stemmer() {
@@ -42,13 +40,14 @@ stemmer.prototype.query = function(form) {
     let fin = form.slice(-1);
     let sup, morphs;
     let term;
+    let check = {};
     for (term in sups) {
         let fin, sfin, fterm, stem, pada, query;
         let size = term.length;
         morphs = sups[term];
         fterm = (size == 0) ? '' : form.slice(-size);
         if (fterm != term) continue;
-        let morph, res;
+        let morph;
         for (morph of morphs) {
             // log('term', term);
             if (size == 0 && morph.dict != 'न्') continue;
@@ -61,14 +60,17 @@ stemmer.prototype.query = function(form) {
             if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
             let slp = salita.sa2slp(pada);
-            res = {pada: pada, slp: slp, name: true, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term, size: size};
+            // let key = [pada, slp, stem, morph.gend, morph.dict, morph.var, morph.sups, term].join('-');
+            // if (check[key]) continue;
+            let res = {pada: pada, slp: slp, name: true, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term, size: size};
             queries.push(res);
-            // log('term', term, 'stem', stem, 'SFIN', sfin, 'g', morph.gend, 'v', morph.var, 'beg', beg);
-            // p('TERM', term, morph);
+            // check[key] = true;
         }
     }
-
-    // return [];
+    // if (queries.length == 0) {
+        let plain = {plain: true, pada: form, gend: 'mfn', slp: salita.sa2slp(form)}; // FIXME: gend?
+        queries.push(plain);
+    // }
     return queries;
 }
 
