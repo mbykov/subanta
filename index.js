@@ -34,13 +34,11 @@ function stemmer() {
 
 stemmer.prototype.query = function(form) {
     // log('INDEX', form, ' - ', salita.sa2slp(form));
-    form = form.trim();
     var queries = [];
-    // var fits = [];
     let fin = form.slice(-1);
     let sup, morphs;
     let term;
-    let check = {};
+    // let check = {}; // key - убить совсем, MW должен иметь .var
     for (term in sups) {
         let fin, sfin, fterm, stem, pada, query;
         let size = term.length;

@@ -23,6 +23,7 @@ var p = u.p;
 
 if (!lat) return log('?');
 
+lat = lat.trim();
 var form;
 if (/[a-zA-Z0-1]/.test(lat[0])) {
     form = salita.slp2sa(lat);
@@ -34,32 +35,8 @@ if (/[a-zA-Z0-1]/.test(lat[0])) {
 if (find) log('subanta find:', lat, form);
 else log('subanta parse:', lat, form);
 
-var eu =  ['sg.nom', 'sg.acc', 'sg.ins', 'sg.dat', 'sg.abl', 'sg.gen', 'sg.loc', 'sg.voc', 'du.nom', 'du.acc', 'du.ins', 'du.dat', 'du.abl', 'du.gen', 'du.loc', 'du.voc', 'pl.nom', 'pl.acc', 'pl.ins', 'pl.dat', 'pl.abl', 'pl.gen', 'pl.loc', 'pl.voc'];
-var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
-
-
-// var sups = [];
-// var sups = require('./lib/sup-cache');
-// FIXME: запись в файл, чтение оттуда
-// var sups = require('./lib/make_sup_cache');
-
-// var supCachePath = path.join(__dirname, './lib/sup_cache.txt');
-// var supCaches = fs.readFileSync(supCachePath).toString().split('\n');
-// var sups = {};
-// var term, size, gend, dict, svar, json;
-// // term, term.length, s.gend, s.dict, s.var, JSON.stringify(s.sups)
-// supCaches.forEach(function(cache) {
-//     if (cache == '') return;
-//     if (cache[0] == '#') return;
-//     [term, size, json] = cache.split('-');
-//     let morphs = JSON.parse(json);
-//     // sups.push({term: term, size: size, gend: gend, dict: dict, var: svar, sups: JSON.parse(json)});
-//     // sups.push({term: term, size: size, morphs: morphs });
-//     sups[term] = morphs;
-// });
-
-// p(sups);
-// return;
+// var eu =  ['sg.nom', 'sg.acc', 'sg.ins', 'sg.dat', 'sg.abl', 'sg.gen', 'sg.loc', 'sg.voc', 'du.nom', 'du.acc', 'du.ins', 'du.dat', 'du.abl', 'du.gen', 'du.loc', 'du.voc', 'pl.nom', 'pl.acc', 'pl.ins', 'pl.dat', 'pl.abl', 'pl.gen', 'pl.loc', 'pl.voc'];
+// var hi =  ['सु', 'औ', 'जस्', 'अम्', 'औट्', 'शस्', 'टा', 'भ्याम्', 'भिस्', 'ङे', 'भ्याम्', 'भ्यस्', 'ङसि', 'भ्याम्', 'भ्यस्', 'ङस्', 'ओस्', 'आम्', 'ङि', 'ओस्', 'सुप्'];
 
 console.time("queryTime");
 
