@@ -60,7 +60,8 @@ stemmer.prototype.query = function(form) {
             if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
             let slp = salita.sa2slp(pada);
-            // let key = [pada, slp, stem, morph.gend, morph.dict, morph.var, morph.sups, term].join('-');
+            // key does not have dict, var, stem and term - artificial, inner attributes: - and is only for testing purposes
+            // let key = [pada, morph.gend, morph.sups].join('-');
             // if (check[key]) continue;
             let res = {pada: pada, slp: slp, name: true, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term, size: size};
             queries.push(res);
