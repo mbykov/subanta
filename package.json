@@ -1,7 +1,7 @@
 {
     "name": "subanta",
     "version": "0.1.0",
-    "description": "Inflectional Morphology Analyzer for Sanskrit",
+    "description": "inflectional subanta morphology analyzer for Sanskrit",
     "main": "index.js",
     "directories": {
         "test": "test"

@@ -13,7 +13,6 @@ var inc = u.include;
 var log = u.log;
 var p = u.p;
 var salita = require('salita-component');
-// var sha1 = require('sha1');
 var sups = require('./lib/getSups').get();
 
 exports = module.exports = stemmer();
@@ -22,23 +21,12 @@ function stemmer() {
     if (!(this instanceof stemmer)) return new stemmer();
 }
 
-// forms queries for CouchDB:
-
-/*
-  - теперь обработать fits - вычислить stem и создать query для Couch
-  - и прогнать так все тесты - которые теперь не могут не сходиться
-  - постараться отбросить как можно больше query
-  - как запускать flakes? Вторым запросом к Кауч, если нет результата иил всегда?
-  -
-*/
 
 stemmer.prototype.query = function(form) {
-    // log('INDEX', form, ' - ', salita.sa2slp(form));
     var queries = [];
     let fin = form.slice(-1);
     let sup, morphs;
     let term;
-    // let check = {}; // key - убить совсем, MW должен иметь .var
     for (term in sups) {
         let fin, sfin, fterm, stem, pada, query;
         let size = term.length;
@@ -47,7 +35,6 @@ stemmer.prototype.query = function(form) {
         if (fterm != term) continue;
         let morph;
         for (morph of morphs) {
-            // log('term', term);
             if (size == 0 && morph.dict != 'न्') continue;
             stem = (size == 0) ? form : form.slice(0, -size);
             sfin = stem.slice(-1);
@@ -58,12 +45,8 @@ stemmer.prototype.query = function(form) {
             if (beg && u.isConsonant(sfin) && !u.isVowel(beg) && !u.isConsonant(beg)) continue; // only beg + cons + vow||cons
             pada = [stem, morph.dict].join('');
             let slp = salita.sa2slp(pada);
-            // key does not have dict, var, stem and term - artificial, inner attributes: - and is only for testing purposes
-            // let key = [pada, morph.gend, morph.sups].join('-');
-            // if (check[key]) continue;
             let res = {pada: pada, slp: slp, name: true, stem: stem, gend: morph.gend, dict: morph.dict, var: morph.var, sups: morph.sups, term: term, size: size};
             queries.push(res);
-            // check[key] = true;
         }
     }
     // if (queries.length == 0) {
@@ -72,57 +55,3 @@ stemmer.prototype.query = function(form) {
     // }
     return queries;
 }
-
-
-
-
-
-
-    // max здесь не работает, pada vidyA совпадает с другими terms:
-    // var excep = ['्य', 'न', 'ज', 'त', 'म', 'प', '्न']; // "ुनी" а нужно "नी"
-    // // var mmax, fmax, nmax = 0;
-    // var max = {masc: 0, fem: 0, neut: 0};
-    // var termstart;
-    // fits.forEach(function(sup) {
-    //     // termstart = (sup.term[0] == c.virama) ? sup.term.slice(0,2) : sup.term.slice(0,1);
-    //     // if (inc(excep, termstart)) return;
-    //     if (sup.size > max[sup.gend]) max[sup.gend] = sup.size;
-    //     // if (sup.gend == 'masc') mmax = (mmax >= sup.size) ? mmax : sup.size;
-    //     // else if (sup.gend == 'fem') mmax = (fmax >= sup.size) ? fmax : sup.size;
-    //     // else if (sup.gend == 'neut') mmax = (nmax >= sup.size) ? nmax : sup.size;
-    // });
-
-
-    // var res = [];
-    // fits.forEach(function(sup) {
-    //     // if (sup.size < max[sup.gend]) return;
-    //     // log(stem, JSON.stringify(sup));
-    //     pada = [sup.stem, sup.dict].join('');
-    //     sup.pada = pada;
-    //     res.push(sup);
-    // });
-
-    /*
-      сделать res и выбросить sup для краткости - можно.
-      сгруппировать по sup.term - можно, выигрыш - 900 строк - существенно
-     */
-    // return [];
-    // return res;
-
-
-
-// не работает - neut-is, neut-s - разница в длине 8,9. 8 отбрасывается
-// то есть влияет атрибут var - правильный ответ есть, но не правильно складывается из stem+term
-// по идее, var не должен бы влиять
-
-// var q;
-// var max = 0;
-// for (q of queries) {
-//     if (q.size > max) max = q.size;
-// }
-
-// var cleans = [];
-// for (q of queries) {
-//     if (q.size < 5) cleans.push(q);
-//     if (q.size >= max) cleans.push(q);
-// }
