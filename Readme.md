@@ -6,18 +6,18 @@ subanta analyser beforehand creates a file ./lib/sup_cache.txt' for all endings 
 
 
 ````bash
-node run.js ज<094d>योतिषोः                                                               (git)-[master]
+node run.js ज्योतिषोः                                                               (git)-[master]
 subanta parse: jyotizoH ज्योतिषोः
-[ { pada: 'ज्योतिषु',
-    slp: 'jyotizu',
+[{ pada: 'ज्योतिस्',
+    slp: 'jyotis',
     name: true,
-    stem: 'ज्योतिष',
-    gend: 'fem',
-    dict: 'ु',
-    var: 'u',
-    sups: [ '5.1', '6.1' ],
-    term: 'ोः',
-    size: 2 },
+    stem: 'ज्योत',
+    gend: 'neut',
+    dict: 'िस्',
+    var: 'is',
+    sups: [ '6.2', '7.2' ],
+    term: 'िषोः',
+    size: 4 },
     . . .
   { plain: true, pada: 'ज्योतिषोः', gend: 'mfn', slp: 'jyotizoH' } ]
 qs size: 10
@@ -39,7 +39,7 @@ var subanta = require('subanta');
 ````
 
 ````javascript
-        subanta.query(flake);
+subanta.query(flake);
 ````
 
 ## console
@@ -59,7 +59,7 @@ node run.js ज्योतिर्भ्यः
 
 ## Running node tests
 
-````javascript
+````bash
 $ make test
 ->  1717 passing (1s)
 ````
